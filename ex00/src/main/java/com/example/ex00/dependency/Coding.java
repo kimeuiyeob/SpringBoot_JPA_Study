@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
 //@Setter는 나중에 필요할때
 
 //아래3개 생성자 종류
-//@NoArgsConstructor //기본 생성자
-//@AllArgsConstructor //모든걸해주는 생성자
-@RequiredArgsConstructor //final이 붙어있거나 NonNull이 붙어있으면 생성자로 초기화시켜준다, 필요한거 골라서 하는 생성자
+//@NoArgsConstructor //기본 생성자만 초기화
+//@AllArgsConstructor //모든 필드 초기화
+@RequiredArgsConstructor //final이 붙어있거나 NonNull이 붙어있으면 생성자로 초기화시켜준다, 원하는 필드를 골라서 초기화할 수 있도록 함
 
 public class Coding {
     //필드 주입
@@ -29,10 +29,12 @@ public class Coding {
     //메모리 할당되면서 초기값으로 주입되므로 final 키워드 사용 가능, 다른곳에서 변형 불가능
     //의존성 주입이 안되면 객체가 생성되지 않으므로 NPE 방어
     //생성자에 @Autowired생략 가능
+
 //    @Autowired //이것도 롬복이 알아서해준다.
 //    public Coding(Computer computer) {
 //        this.computer = computer;
 //    }
+
 }
 
 

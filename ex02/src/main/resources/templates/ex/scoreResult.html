@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<table>
+    <tr>
+        <th>국어 점수</th>
+        <th>영어 점수</th>
+        <th>수학 점수</th>
+        <th>역사 점수</th>
+        <th>총 점</th>
+        <th>평 균</th>
+    </tr>
+    <tr th:object="${scoreVO}">
+        <td th:text="*{korea}"></td>
+        <td th:text="*{english}"></td>
+        <td th:text="*{math}"></td>
+        <td th:text="*{history}"></td>
+        <td th:text="*{total}"></td>
+        <td th:text="*{average}"></td>
+    </tr>
+
+</table>
+
+</body>
+</html>
