@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.app.mapper.TimeMapper"> <!--namespace에는 인터페이스 TimeMapper경로를 적어준다.-->
+    <select id="getTime" resultType="string">  /*id는 TimeMapper의 메소드명과 동일하게 한다. id로 메소드명 인식*/
+        SELECT SYSDATE FROM DUAL
+    </select>
+</mapper>
