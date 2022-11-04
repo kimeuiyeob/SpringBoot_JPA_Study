@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.order.mapper.OrderMapper">
+
+    <!--추가-->
+    <insert id="insert">
+        INSERT INTO TBL_ORDER (ORDER_ID, ITEM_NUMBER, ITEM_COUNT, ORDER_PRICE)
+        VALUES (#{orderId}, #{itemNumber}, #{itemCount}, #{orderPrice})
+    </insert>
+
+    <!--삭제--> <!--orderId 로 삭제-->
+    <delete id="delete">
+        DELETE FROM TBL_ORDER
+        WHERE ORDER_ID = #{orderId}
+    </delete>
+
+    <!--조회--> <!--itemNumber로 order컬럼 조회하기-->
+    <select id="select" resultType="orderVO">
+        SELECT ORDER_ID, ORDER_DATE, ITEM_NUMBER, ITEM_COUNT, ORDER_PRICE FROM TBL_ORDER
+        WHERE ITEM_NUMBER = #{itemNumber}
+    </select>
+
+    <!--order,item 테이블 조인한거 조회하기--> <!--orderID로 조회하기-->
+    <select id="selectOrder" resultType="orderDTO">
+        SELECT ORDER_ID, ORDER_DATE, I.ITEM_NUMBER, ITEM_COUNT, ORDER_PRICE, ITEM_NAME
+        FROM TBL_ITEM I
+        JOIN TBL_ORDER O
+        ON ORDER_ID = #{orderId} AND I.ITEM_NUMBER = O.ITEM_NUMBER
+    </select>
+
+    <!--전체 조회-->
+    <select id="selectAll" resultType="orderDTO">
+        SELECT O.ORDER_ID, O.ORDER_DATE, O.ITEM_NUMBER, O.ITEM_COUNT, O.ORDER_PRICE, I.ITEM_PRICE
+        FROM TBL_ORDER O
+        JOIN TBL_ITEM I
+        ON O.ITEM_NUMBER = I.ITEM_NUMBER
+    </select>
+
+    <!--주문 번호 조회-->
+    <select id="selectOrderId" resultType="string">
+        SELECT TO_CHAR(CURRENT_DATE, 'yyyymmdd') || ORDER_SEQ ORDER_NUMBER FROM
+        (
+            SELECT ORDER_SEQ, ORDER_DATE FROM TBL_ORDER_SEQ ORDER BY ROWNUM DESC
+        )
+        WHERE ROWNUM = 1
+    </select>
+
+    <!--주문 번호 증가-->
+    <update id="next">
+        UPDATE TBL_ORDER_SEQ
+        SET ORDER_SEQ = ORDER_SEQ + 1
+        WHERE TO_CHAR(ORDER_DATE, 'yyyymmdd') = TO_CHAR(CURRENT_DATE, 'yyyymmdd')
+    </update>
+
+    <!--주문 번호 추가-->
+    <insert id="insertOrderSequence">
+        INSERT INTO TBL_ORDER_SEQ (ORDER_DATE)
+        VALUES (CURRENT_DATE)
+    </insert>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

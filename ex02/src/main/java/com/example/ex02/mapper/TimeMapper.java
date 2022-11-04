@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Select;
 public interface TimeMapper {
     public String getTime();
 
-    @Select("SELECT SYSDATE FROM DUAL")
+    @Select("SELECT CURRENT_DATE FROM DUAL")
     //짧은 쿼리문 같은경우는 Mapper를 안만들고 여기서 바로 디비연동이 가능하다. 하지만 쿼리문이 긴경우는 mapper를 사용하자!!
     public String getTimeQuick();
 }

@@ -35,7 +35,7 @@ public class ProductController {
     public RedirectView change(ProductVO productVO, RedirectAttributes redirectAttributes) {
         productService.update(productVO);
         redirectAttributes.addAttribute("productNumber",productVO.getProductNumber());
-        return new RedirectView("/product/change");
+        return new RedirectView("/ex/change");
     }
 
 
@@ -43,7 +43,7 @@ public class ProductController {
     @PostMapping("/delete")
     public RedirectView delete(Long productNumber) {
         productService.delete(productNumber);
-        return new RedirectView("/product/change");
+        return new RedirectView("/ex/delete");
     }
 
 

@@ -3,6 +3,6 @@
 
 <mapper namespace="com.example.ex02.mapper.TimeMapper"> <!--namespace에는 인터페이스 TimeMapper경로를 적어준다.-->
     <select id="getTime" resultType="string">  /*id는 TimeMapper의 메소드명과 동일하게 한다. id로 메소드명 인식*/
-        SELECT SYSDATE FROM DUAL
+        SELECT CURRENT_DATE FROM DUAL
     </select>
 </mapper>

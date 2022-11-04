@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.order.mapper.ItemMapper">
+
+    <!--추가-->
+    <insert id="insert">
+        INSERT INTO TBL_ITEM (ITEM_NUMBER, ITEM_NAME, ITEM_PRICE, ITEM_STOCK)
+        VALUES (SEQ_ITEM.NEXTVAL, #{itemName}, #{itemPrice}, #{itemStock})
+    </insert>
+
+    <!--수정-->
+    <update id="update">
+        UPDATE TBL_ITEM
+        SET ITEM_NAME = #{itemName}, ITEM_PRICE = #{itemPrice}, ITEM_STOCK = #{itemStock}
+        WHERE ITEM_NUMBER = #{itemNumber}
+    </update>
+
+    <!--조회-->
+    <select id="select" resultType="itemVO">
+        SELECT ITEM_NUMBER, ITEM_NAME, ITEM_PRICE, ITEM_STOCK FROM TBL_ITEM
+        WHERE ITEM_NUMBER = #{itemNumber}
+    </select>
+
+    <!--전체 조회-->
+    <select id="selectAll" resultType="itemVO">
+        SELECT ITEM_NUMBER, ITEM_NAME, ITEM_PRICE, ITEM_STOCK FROM TBL_ITEM
+    </select>
+
+</mapper>
+
+
+

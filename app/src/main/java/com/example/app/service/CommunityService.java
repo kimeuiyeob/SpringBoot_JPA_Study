@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CommunityService implements BoardService {
-
+    
     private final BoardDAO boardDAO; //final 쓴이유는 주입받은게 다른데서 바뀌면 안되니까
 
     @Override

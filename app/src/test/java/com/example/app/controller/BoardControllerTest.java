@@ -39,7 +39,8 @@ public class BoardControllerTest {
     public void writeTest() throws Exception {
         log.info(mockMvc.perform(MockMvcRequestBuilders.post("/board/write")
                 .param("boardTitle", "새로운 제목1")
-                .param("boardContent", "새로운 내용1").param("boardWriter", "testC"))
+                .param("boardContent", "새로운 내용1")
+                .param("boardWriter", "testC"))
                 .andReturn().getModelAndView().getViewName());
     }
 
