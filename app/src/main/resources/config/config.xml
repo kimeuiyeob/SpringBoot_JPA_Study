@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0/EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-
     <typeAliases>
-        <!--VO에서 boardVO를 만들었다면 알리아스 지정해주자!! , config파일에서 알리아스를 지정해줘야 다른데서 boardVO로 받을수 있다.-->
         <typeAlias type="com.example.app.domain.vo.BoardVO" alias="boardVO"/>
     </typeAliases>
-
 </configuration>

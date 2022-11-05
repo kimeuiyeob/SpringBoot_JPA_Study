@@ -1,18 +1,20 @@
 package com.example.app.service;
 
-
 import com.example.app.domain.dao.BoardDAO;
 import com.example.app.domain.vo.BoardVO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Service @Qualifier("community") @Primary
 @RequiredArgsConstructor
-public class CommunityService implements BoardService {
-    
-    private final BoardDAO boardDAO; //final 쓴이유는 주입받은게 다른데서 바뀌면 안되니까
+public class CommunityService implements BoardService{
+    //BoardService인터페이스 구현해서 바디 완성
+
+    private final BoardDAO boardDAO;
 
     @Override
     public List<BoardVO> show() {
@@ -28,6 +30,7 @@ public class CommunityService implements BoardService {
     public boolean add(BoardVO boardVO) {
         return boardDAO.save(boardVO) == 1;
     }
+    //boolean타입으로 받았으니까 ==1을 해준다.
 
     @Override
     public boolean update(BoardVO boardVO) {
@@ -38,5 +41,4 @@ public class CommunityService implements BoardService {
     public boolean delete(Long boardNumber) {
         return boardDAO.deleteById(boardNumber) == 1;
     }
-
 }

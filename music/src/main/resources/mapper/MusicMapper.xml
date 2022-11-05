@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.music.mapper.MusicMapper">
+
+   <select id="getList" resultType="MusicVO"> /*전체 조회*/
+        SELECT MUSIC_NUMBER, MUSIC_TITLE, MUSIC_SINGER, MUSIC_LYRICS, MUSIC_REGISTER_DATE, MUSIC_UPDATE_DATE
+        FROM TBL_MUSIC
+    </select>
+
+ <select id="select" resultType="MusicVO"> /*번호로 조회*/
+        SELECT MUSIC_NUMBER, MUSIC_TITLE, MUSIC_SINGER, MUSIC_LYRICS, MUSIC_REGISTER_DATE, MUSIC_UPDATE_DATE
+        FROM TBL_MUSIC
+        WHERE MUSIC_NUMBER = #{musicNumber}
+    </select>
+
+
+ <insert id="insert">  /*음악 추가*/
+    /*Oracle 은 AUTO INCREMENT 가 없으므로 SEQUENCE 를 사용해야 한다. 해당 시퀀스명이 SEQ_BOARD 일때 다음과 같이 사용*/
+        <selectKey keyProperty="musicNumber" order="BEFORE" resultType="long">
+            SELECT SEQ_MUSIC.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO TBL_MUSIC (MUSIC_NUMBER, MUSIC_TITLE, MUSIC_SINGER, MUSIC_LYRICS)
+        VALUES(#{musicNumber}, #{musicTitle}, #{musicSinger}, #{musicLyrics})
+    </insert>
+
+    <update id="update"> /*음악 수정*/
+        UPDATE TBL_MUSIC
+        SET MUSIC_TITLE = #{musicTitle}, MUSIC_SINGER = #{musicSinger}, MUSIC_LYRICS = #{musicLyrics}
+        WHERE MUSIC_NUMBER = #{musicNumber}
+    </update>
+
+    <delete id="delete"> /*음악 삭제*/
+        DELETE FROM TBL_MUSIC
+        WHERE MUSIC_NUMBER = #{musicNumber}
+    </delete>
+
+    <select id="selectWith" resultType="musicVO">
+        SELECT MUSIC_NUMBER, MUSIC_TITLE, MUSIC_SINGER, MUSIC_LYRICS, MUSIC_REGISTER_DATE, MUSIC_UPDATE_DATE
+        FROM TBL_MUSIC
+        WHERE MUSIC_SINGER LIKE '김%'
+    </select>
+
+
+</mapper>

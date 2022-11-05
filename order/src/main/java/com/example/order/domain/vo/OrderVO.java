@@ -3,6 +3,8 @@ package com.example.order.domain.vo;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @Data
 public class OrderVO {
@@ -11,4 +13,6 @@ public class OrderVO {
     private Long itemNumber;
     private int itemCount;
     private int orderPrice;
+
+    List<OrderVO> orders;
 }

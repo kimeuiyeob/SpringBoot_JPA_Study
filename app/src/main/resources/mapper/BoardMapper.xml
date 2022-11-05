@@ -2,32 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.app.mapper.BoardMapper">
 
-    <!--resultType parameterType Spring에서는 안써줘도 된다-->
-    <select id="getList" resultType="boardVO">
+    <select id="getList" resultType="boardVO"> /*게시판 목록 전체 조회*/
         SELECT BOARD_NUMBER, BOARD_TITLE, BOARD_WRITER, BOARD_CONTENT, BOARD_REGISTER_DATE, BOARD_UPDATE_DATE
         FROM TBL_BOARD
     </select>
 
-    <!--자동 넘버는 SEQ_BOARD.NEXTVAL로 만들어준다-->
-    <insert id="insert">
+    <insert id="insert">  /*게시글 추가*/
+    /*Oracle 은 AUTO INCREMENT 가 없으므로 SEQUENCE 를 사용해야 한다. 해당 시퀀스명이 SEQ_BOARD 일때 다음과 같이 사용*/
+        <selectKey keyProperty="boardNumber" order="BEFORE" resultType="long">
+            SELECT SEQ_BOARD.NEXTVAL FROM DUAL
+        </selectKey>
         INSERT INTO TBL_BOARD (BOARD_NUMBER, BOARD_TITLE, BOARD_WRITER, BOARD_CONTENT)
-        VALUES(SEQ_BOARD.NEXTVAL, #{boardTitle}, #{boardWriter}, #{boardContent})
+        VALUES(#{boardNumber}, #{boardTitle}, #{boardWriter}, #{boardContent})
     </insert>
 
-    <update id="update">
+    <update id="update"> /*게시글 수정*/
         UPDATE TBL_BOARD
         SET BOARD_TITLE = #{boardTitle}, BOARD_CONTENT = #{boardContent}, BOARD_UPDATE_DATE = SYSDATE
         WHERE BOARD_NUMBER = #{boardNumber}
     </update>
 
-    <!--boardNumber와 같다면 delete-->
-    <delete id="delete">
+    <delete id="delete"> /*게시글 삭제*/
         DELETE FROM TBL_BOARD
         WHERE BOARD_NUMBER = #{boardNumber}
     </delete>
 
-    <!--boardNumber와 같은값들을 가져온다.-->
-    <select id="getUser">
+    <select id="select" resultType="boardVO"> /*게시글 번호로 조회*/
         SELECT BOARD_NUMBER, BOARD_TITLE, BOARD_WRITER, BOARD_CONTENT, BOARD_REGISTER_DATE, BOARD_UPDATE_DATE
         FROM TBL_BOARD
         WHERE BOARD_NUMBER = #{boardNumber}

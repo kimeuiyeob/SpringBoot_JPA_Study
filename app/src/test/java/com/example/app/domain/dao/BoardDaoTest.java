@@ -9,13 +9,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @Slf4j
-public class BoardDaoTest {
+public class BoardDAOTest {
 
     @Autowired
     private BoardDAO boardDAO;
 
-    @Test //게시글 목록 조회
-    public void findAllTest(){ //List<BoardVO>여서 forEach로 뽑는다.
+    @Test //게시글 전체 목록 조회니까 VO가 여러개 있으므로 forEach로 출력하기
+    public void findAllTest(){
         boardDAO.findAll().stream().map(BoardVO::toString).forEach(log::info);
     }
 
@@ -39,10 +39,9 @@ public class BoardDaoTest {
 
     @Test //게시글 삭제
     public void deleteByIdTest(){
-        Long boardNumber = 3L; //boardNumber가 3인경우 삭제
+        Long boardNumber = 3L;
         BoardVO boardVO = boardDAO.findById(boardNumber);
         Assertions.assertNotNull(boardVO);
         boardDAO.deleteById(boardNumber);
     }
-
 }

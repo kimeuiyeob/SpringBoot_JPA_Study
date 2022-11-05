@@ -1,6 +1,5 @@
 package com.example.app.service;
 
-import com.example.app.domain.dao.BoardDAO;
 import com.example.app.domain.vo.BoardVO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
@@ -8,12 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
-
 @SpringBootTest
 @Slf4j
 public class BoardServiceTest {
-
 
     @Autowired
     private BoardService boardService;
@@ -43,7 +39,7 @@ public class BoardServiceTest {
 
     @Test
     public void deleteTest(){
-        Long boardNumber = 12L;
+        Long boardNumber = 5L;
         BoardVO boardVO = boardService.find(boardNumber);
         Assertions.assertNotNull(boardVO);
         boardService.delete(boardNumber);

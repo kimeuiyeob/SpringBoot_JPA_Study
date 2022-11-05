@@ -49,9 +49,6 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
-
-        <!--=====================아래========================-->
-
         <dependency>
             <groupId>com.oracle.database.jdbc</groupId>
             <artifactId>ojdbc10</artifactId>
@@ -136,14 +133,7 @@
         </dependency>
     </dependencies>
 
-
-    <!--==========================위에======================-->
-
-
     <build>
-
-        <!--=====================아래==========================-->
-
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -163,10 +153,6 @@
                 </includes>
             </resource>
         </resources>
-
-        <!--========================위에========================-->
-
-
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

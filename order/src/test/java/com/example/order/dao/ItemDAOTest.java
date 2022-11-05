@@ -10,11 +10,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 @Slf4j
 public class ItemDAOTest {
-
     @Autowired
     private ItemDAO itemDAO;
 
-    @Test //추가
+    @Test
     public void saveTest(){
         ItemVO itemVO =  new ItemVO();
         itemVO.setItemName("당근");
@@ -24,20 +23,20 @@ public class ItemDAOTest {
         itemDAO.save(itemVO);
     }
 
-    @Test //수정
+    @Test
     public void setItemTest(){
         ItemVO itemVO = itemDAO.findById(2L);
         itemVO.setItemStock(itemVO.getItemStock()  + 8);
         itemDAO.setItem(itemVO);
     }
 
-    @Test //해당 넘버로 컬럼 조회
+    @Test
     public void findByIdTest(){
         ItemVO itemVO = itemDAO.findById(3L);
         log.info(itemVO.toString());
     }
 
-    @Test //전체 조회 (모든 itemName 조회하기)
+    @Test
     public void findAll() {
         itemDAO.findAll().stream().map(item -> item.getItemName()).forEach(log::info);
     }

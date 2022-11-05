@@ -5,58 +5,42 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest //SpringBoot테스트 할때 쓰는 어노테이션
-@Slf4j  //log.info 할때 쓰는 어노테이션
+@SpringBootTest
+@Slf4j
 public class BoardMapperTest {
-
-    @Autowired //@Autowired 주입
+    @Autowired
     private BoardMapper boardMapper;
 
-    @Test //게시글 목록 (select)
-    public void getListTest() { // List<BoardVO> getList()로 만들었기때문에 forEach사용해서 목록을 조회한다.
+    @Test
+    public void getListTest(){
         boardMapper.getList().stream().map(BoardVO::toString).forEach(log::info);
     }
 
-
-    @Test //게시글 추가 (insert)
-    public void insertListTest() {
-
-        BoardVO boardVO = new BoardVO(); //새롭게 추가하는거니까 boardVO객체화해주고
-
-        boardVO.setBoardTitle("테스트제목2"); //set으로 새로운 값들을 넣어준다.
-        boardVO.setBoardWriter("textB");
-        boardVO.setBoardContent("테스트내용2");
-
+    @Test
+    public void insertTest(){
+        BoardVO boardVO = new BoardVO();
+        boardVO.setBoardTitle("테스트 제목2");
+        boardVO.setBoardWriter("testB");
+        boardVO.setBoardContent("테스트 내용2");
         boardMapper.insert(boardVO);
-        //BoardMapper인터페이스에 있는 insert()메소드를 사용해서 값을 디비에 넣어준다.
-
+        log.info("추가된 게시글 번호: " + boardVO.getBoardNumber());
     }
 
-    @Test //게시글 수정 (update)
-    public void updateListTest() {
-
-        BoardVO boardVO = boardMapper.getUser((long) 1); //getUser()로 게시글조회한다음 boardNumber가 1인경우
-
-        Assertions.assertNotNull(boardVO); //오류를 알려줘 실무에서 많이쓴다.
-
-        boardVO.setBoardTitle("테스트제목6"); //set으로 새로운 값들을 넣어준다.
-        boardVO.setBoardWriter("textA");
-        boardVO.setBoardContent("테스트내용6");
-
-        boardMapper.update(boardVO);
-        //BoardMapper인터페이스에 있는 update()메소드를 사용해서 값을 디비에 넣어준다.
-
+    @Test
+    public void updateTest(){
+        BoardVO boardVO  = boardMapper.select(1L);
+        Assertions.assertNotNull(boardVO);
+        boardVO.setBoardTitle("수정된 게시글 제목");
+        log.info("UPDATE COUNT: " + boardMapper.update(boardVO));
     }
 
-
-    @Test //게시글 삭제 (delete)
-    public void deleteListTest() {
-
-        boardMapper.delete((long) 7);
-
+    @Test
+    public void deleteTest(){
+        Long boardNumber = 2L;
+        BoardVO boardVO = boardMapper.select(boardNumber);
+        Assertions.assertNotNull(boardVO);
+        boardMapper.delete(boardNumber);
     }
-
 }
