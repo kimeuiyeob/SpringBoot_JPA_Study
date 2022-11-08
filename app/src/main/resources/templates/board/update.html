@@ -20,14 +20,20 @@
                 <p>게시글 수정</p>
             </header>
             <!-- Table -->
-            <h3><a th:href="@{/board/list}" class="button small">목록 보기</a></h3>
+            <h3><a class="list button small">목록 보기</a></h3> <!--a태그로 감싸지고 href가 없으면 아래 항상 JS를 보자!!!-->
             <div class="content">
                 <div class="form">
+
+
+            <!--<form method="post" th:action="@{/board/update(page=${criteria.page}, amount=${criteria.amount})}" th:object="${board}">-->
                     <form method="post" th:action="@{/board/update}" th:object="${board}">
+                        <!--controller에서 Get으로 여기로 오고 아래 수정버튼을 누르면 post방식으로 다시 controller로 보낸다, board, page,amout 키값을 같이-->
+                        <input type="hidden" name="page" th:value="${criteria.page}"> <!--th:object가 board이기때문에 page나 amount는 ${criteia.로 접근}-->
+                        <input type="hidden" name="amount" th:value="${criteria.amount}">
                         <div class="fields">
                             <div class="field">
                                 <h4>번호</h4>
-                                <input type="text" th:field="*{boardNumber}" readonly/>
+                                <input type="text" th:field="*{boardNumber}" readonly/> <!--수정부분이라도 number는 readonly로 수정 막아주자-->
                             </div>
                             <div class="field">
                                 <h4>*제목</h4>
@@ -35,11 +41,11 @@
                             </div>
                             <div class="field">
                                 <h4>*내용</h4>
-                                <textarea rows="6" style="resize:none" th:field="*{boardContent}"></textarea>
+                                <textarea rows="6" style="resize:none" th:field="*{boardContent}"></textarea> <!--내용을 적는부분은 textarea로 해준다.-->
                             </div>
                             <div class="field">
                                 <h4>작성자</h4>
-                                <input type="text" th:field="*{boardWriter}" readonly/>
+                                <input type="text" th:field="*{boardWriter}" readonly/> <!--수정부분이라도 writer는 readonly로 수정 막아주자-->
                             </div>
                         </div>
                         <ul class="actions special">
@@ -48,11 +54,14 @@
                             </li>
                         </ul>
                     </form>
+
+
                 </div>
             </div>
         </div>
     </div>
 </div>
+</body>
 <!-- Scripts -->
 <script src="/js/jquery.min.js"></script>
 <script src="/js/jquery.dropotron.min.js"></script>
@@ -60,5 +69,15 @@
 <script src="/js/breakpoints.min.js"></script>
 <script src="/js/util.js"></script>
 <script src="/js/main.js"></script>
-</body>
+<script th:inline="javascript">
+
+    let queryString = [[${criteria.queryString}]];
+
+    /*상단에 목록보기 로 넘어가는 JS*/
+    $("a.list").on("click", function(e){ //먼저 a태그의 이벤트를 prevent로 막아주고
+        e.preventDefault();
+        location.href = "/board/list" + queryString; //해당 경로로 보낸다 + queryString을 해야지 해당 페이지 기억해서 돌아간다.
+    });
+
+</script>
 </html>

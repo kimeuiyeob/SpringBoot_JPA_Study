@@ -1,6 +1,7 @@
 package com.example.app.mapper;
 
 import com.example.app.domain.vo.BoardVO;
+import com.example.app.domain.vo.Criteria;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,9 @@ public class BoardMapperTest {
 
     @Test
     public void getListTest(){
-        boardMapper.getList().stream().map(BoardVO::toString).forEach(log::info);
+        Criteria criteria = new Criteria();
+        criteria.createCriteria(2, 10);
+        boardMapper.getList(criteria).stream().map(BoardVO::toString).forEach(log::info);
     }
 
     @Test
@@ -42,5 +45,10 @@ public class BoardMapperTest {
         BoardVO boardVO = boardMapper.select(boardNumber);
         Assertions.assertNotNull(boardVO);
         boardMapper.delete(boardNumber);
+    }
+
+    @Test
+    public void selectCountOfBoard(){
+        log.info("board count: " + boardMapper.selectCountOfBoard());
     }
 }

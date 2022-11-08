@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.app.mapper.BoardMapper">
-
-    <select id="getList" resultType="boardVO"> /*게시판 목록 전체 조회*/
+    <select id="getList" resultType="boardVO">
         SELECT BOARD_NUMBER, BOARD_TITLE, BOARD_WRITER, BOARD_CONTENT, BOARD_REGISTER_DATE, BOARD_UPDATE_DATE
-        FROM TBL_BOARD
+        FROM
+        (
+            SELECT ROWNUM R, BOARD_NUMBER, BOARD_TITLE, BOARD_WRITER, BOARD_CONTENT, BOARD_REGISTER_DATE, BOARD_UPDATE_DATE
+            FROM
+            (
+                SELECT BOARD_NUMBER, BOARD_TITLE, BOARD_WRITER, BOARD_CONTENT, BOARD_REGISTER_DATE, BOARD_UPDATE_DATE
+                FROM TBL_BOARD
+                ORDER BY BOARD_NUMBER DESC
+            )
+        <![CDATA[
+            WHERE ROWNUM <= #{page} * #{amount}
+        )
+        WHERE R > (#{page} - 1) * #{amount}
+        ]]>
     </select>
 
-    <insert id="insert">  /*게시글 추가*/
-    /*Oracle 은 AUTO INCREMENT 가 없으므로 SEQUENCE 를 사용해야 한다. 해당 시퀀스명이 SEQ_BOARD 일때 다음과 같이 사용*/
+    <insert id="insert">
         <selectKey keyProperty="boardNumber" order="BEFORE" resultType="long">
             SELECT SEQ_BOARD.NEXTVAL FROM DUAL
         </selectKey>
@@ -16,21 +27,23 @@
         VALUES(#{boardNumber}, #{boardTitle}, #{boardWriter}, #{boardContent})
     </insert>
 
-    <update id="update"> /*게시글 수정*/
+    <update id="update">
         UPDATE TBL_BOARD
         SET BOARD_TITLE = #{boardTitle}, BOARD_CONTENT = #{boardContent}, BOARD_UPDATE_DATE = SYSDATE
         WHERE BOARD_NUMBER = #{boardNumber}
     </update>
 
-    <delete id="delete"> /*게시글 삭제*/
+    <delete id="delete">
         DELETE FROM TBL_BOARD
         WHERE BOARD_NUMBER = #{boardNumber}
     </delete>
 
-    <select id="select" resultType="boardVO"> /*게시글 번호로 조회*/
+    <select id="select" resultType="boardVO">
         SELECT BOARD_NUMBER, BOARD_TITLE, BOARD_WRITER, BOARD_CONTENT, BOARD_REGISTER_DATE, BOARD_UPDATE_DATE
-        FROM TBL_BOARD
-        WHERE BOARD_NUMBER = #{boardNumber}
+        FROM TBL_BOARD WHERE BOARD_NUMBER = #{boardNumber}
     </select>
 
+    <select id="selectCountOfBoard" resultType="_int">
+        SELECT COUNT(BOARD_NUMBER) FROM TBL_BOARD
+    </select>
 </mapper>

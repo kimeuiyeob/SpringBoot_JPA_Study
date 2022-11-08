@@ -1,6 +1,7 @@
 package com.example.app.domain.dao;
 
 import com.example.app.domain.vo.BoardVO;
+import com.example.app.domain.vo.Criteria;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -10,16 +11,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 @Slf4j
 public class BoardDAOTest {
-
     @Autowired
     private BoardDAO boardDAO;
 
-    @Test //게시글 전체 목록 조회니까 VO가 여러개 있으므로 forEach로 출력하기
+    @Test
     public void findAllTest(){
-        boardDAO.findAll().stream().map(BoardVO::toString).forEach(log::info);
+        Criteria criteria = new Criteria();
+        criteria.createCriteria();
+        boardDAO.findAll(criteria).stream().map(BoardVO::toString).forEach(log::info);
     }
 
-    @Test //게시글 추가
+    @Test
     public void saveTest(){
         BoardVO boardVO = new BoardVO();
         boardVO.setBoardTitle("테스트 제목2");
@@ -29,7 +31,7 @@ public class BoardDAOTest {
         log.info("추가된 게시글 번호: " + boardVO.getBoardNumber());
     }
 
-    @Test //게시글 수정
+    @Test
     public void setBoardTest(){
         BoardVO boardVO  = boardDAO.findById(1L);
         Assertions.assertNotNull(boardVO);
@@ -37,11 +39,16 @@ public class BoardDAOTest {
         log.info("UPDATE COUNT: " + boardDAO.setBoard(boardVO));
     }
 
-    @Test //게시글 삭제
+    @Test
     public void deleteByIdTest(){
         Long boardNumber = 3L;
         BoardVO boardVO = boardDAO.findById(boardNumber);
         Assertions.assertNotNull(boardVO);
         boardDAO.deleteById(boardNumber);
+    }
+
+    @Test
+    public void selectCountOfBoard(){
+        log.info("board count: " + boardDAO.findCount());
     }
 }

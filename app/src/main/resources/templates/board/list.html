@@ -27,9 +27,10 @@
                 <p>게시판 목록</p>
             </header>
             <!-- Table -->
-            <h3><a th:href="@{/board/write}" class="button small">글 등록</a></h3>
+            <h3><a class="write button small">글 등록</a></h3> <!--(게시글등록)에  a태그를 감싸 눌렀을시 아래JS로 실행 -->
             <div class="table-wrapper">
                 <table>
+
                     <thead>
                     <tr class="tHead">
                         <th class="bno">번호</th>
@@ -39,21 +40,42 @@
                         <th class="updateDate">수정일</th>
                     </tr>
                     </thead>
+
                     <tbody>
-                    <th:block th:each="board:${boards}"> <!--controller에서 boards(boardVO들)이 넘어온다. 그걸 board에 담아서 반복-->
+                    <!--Controller에서 "/list"에 해당하는 메소드에 키값으로 boards(boardVO가 있다)를 th:each el문으로 반복을 시킨다.-->
+                    <th:block th:each="board:${boards}">
                         <tr class="tBody" th:object="${board}">
                             <td class="bno" th:text="*{boardNumber}"></td>
-                            <td class="title"><a th:text="*{boardTitle}" th:href="@{/board/read(boardNumber=*{boardNumber})}"></a></td>
-                                                                                        <!--해당 넘버로 가지고 read경로 이동-->
+                            <td class="title"><a class="read" th:text="*{boardTitle}" th:href="*{boardNumber}"></a></td> <!--(게시글상세보기)제목에 a태그를 감싸 눌렀을시 아래JS로 실행 -->
                             <td class="writer" th:text="*{boardWriter}"></td>
                             <td class="regDate" th:text="*{boardRegisterDate}"></td>
                             <td class="updateDate" th:text="*{boardUpdateDate}"></td>
                         </tr>
                     </th:block>
                     </tbody>
-                    <tfoot>
-                    </tfoot>
+
                 </table>
+
+                <!--페이징 처리, 이부분은 그냥 복붙하자....-->
+                <div th:object="${pagination}">
+
+                    <div style="text-align: center">
+                        <a class="changePage" th:href="*{startPage - 1}" th:if="*{prev}"><code><</code></a> <!--class="changePage"a 태그 눌렀을시 아래JS로 실행 -->
+                        <th:block th:each="page:${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+                            <a class="changePage" th:href="${page}" th:if="${pagination.criteria.page != page}"><code th:text="${page}"></code></a>
+                            <code th:unless="${pagination.criteria.page != page}" th:text="${page}"></code>
+                        </th:block>
+                        <a class="changePage" th:href="*{endPage + 1}" th:if="*{next}"><code>></code></a>
+                    </div>
+
+                    <form th:action="@{/board/list}" th:object="${criteria}" name="pageForm">
+                        <input type="hidden" th:field="*{page}">
+                        <input type="hidden" th:field="*{amount}">
+                    </form>
+
+                </div>
+
+
             </div>
         </div>
     </div>
@@ -69,7 +91,11 @@
 <script th:inline="javascript">
 
     let boardNumber = [[${boardNumber}]];
-    console.log(boardNumber);
+    let queryString = [[${pagination.criteria.queryString}]];
+
+    const $pages = $("a.changePage"); /*페이징 처리쪽*/
+    const $read = $("a.read"); /*목록 board제목 눌렀을시*/
+
     $(document).ready(function(){
         if(boardNumber == '' || history.state){
             return;
@@ -79,7 +105,26 @@
             alert("게시글 " + parseInt(boardNumber) + "번이 등록되었습니다.");
         }
         history.replaceState({}, null, null);
-    })
+    });
+
+    $pages.on("click", function(e){ /*페이징 처리쪽 클릭시*/
+        e.preventDefault();  /*a 태그 효과를 preventDefault로 막고*/
+        $(document.pageForm.page).val($(this).attr("href")); /*해당 페이지 href갖고오기*/
+        $(document.pageForm.amount).val(10);
+        document.pageForm.submit(); /*실행시키기*/
+    });
+
+    $read.on("click", function(e){ /*제목클릭시*/
+        e.preventDefault();/*a 태그 효과를 preventDefault로 막고*/
+        location.href = "/board/read" + queryString + "&boardNumber=" + $(this).attr("href");
+               /* 해당 url + 위에 변수 지정한 queryString + 해당 boardNumber + 해당 href */
+    });
+
+    $("a.write").on("click", function(e){ /*상단에 글등록 클릭시*/
+        e.preventDefault(); /*a 태그 효과를 preventDefault로 막고*/
+        location.href = "/board/write" + queryString; /*경로 이동 url + queryString */
+    });
+
 </script>
 </body>
 </html>

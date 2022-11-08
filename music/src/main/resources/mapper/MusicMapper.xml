@@ -5,6 +5,7 @@
    <select id="getList" resultType="MusicVO"> /*전체 조회*/
         SELECT MUSIC_NUMBER, MUSIC_TITLE, MUSIC_SINGER, MUSIC_LYRICS, MUSIC_REGISTER_DATE, MUSIC_UPDATE_DATE
         FROM TBL_MUSIC
+        ORDER BY MUSIC_NUMBER DESC
     </select>
 
  <select id="select" resultType="MusicVO"> /*번호로 조회*/
@@ -38,7 +39,7 @@
         SELECT MUSIC_NUMBER, MUSIC_TITLE, MUSIC_SINGER, MUSIC_LYRICS, MUSIC_REGISTER_DATE, MUSIC_UPDATE_DATE
         FROM TBL_MUSIC
         WHERE MUSIC_SINGER LIKE '김%'
+        ORDER BY MUSIC_NUMBER DESC
     </select>
-
 
 </mapper>

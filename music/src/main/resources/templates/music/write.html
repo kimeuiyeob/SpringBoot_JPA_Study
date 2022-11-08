@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>MUSIC</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="/css/main.css" />
+</head>
+<body class="is-preload">
+<!-- Main -->
+<div id="main">
+    <div class="wrapper">
+        <div class="inner">
+            <!-- Elements -->
+            <header class="major">
+                <h1>MUSIC</h1>
+                <p>노래 등록</p>
+            </header>
+            <!-- Table -->
+            <h3><a th:href="@{/music/list}" class="button small">목록 보기</a></h3>
+
+            <div class="content">
+                <div class="form">
+                    <form method="post" th:action="@{/music/write}" id="writeForm" th:object="${music}">
+                        <div class="fields">
+                            <div class="field">
+                                <h4>제목</h4>
+                                <input th:field="*{musicTitle}" placeholder="Title" type="text" />
+                            </div>
+                            <div class="field">
+                                <h4>가수</h4>
+                                <textarea th:field="*{musicSinger}" rows="6" placeholder="Content" style="resize:none"></textarea>
+                            </div>
+                            <div class="field">
+                                <h4>가사</h4>
+                                <input th:field="*{musicLyrics}" placeholder="Writer" type="text" />
+                            </div>
+                        </div>
+                        <ul class="actions special">
+                            <li><input type="submit" class="button" value="등록" /></li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Scripts -->
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.dropotron.min.js"></script>
+<script src="/js/browser.min.js"></script>
+<script src="/js/breakpoints.min.js"></script>
+<script src="/js/util.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>

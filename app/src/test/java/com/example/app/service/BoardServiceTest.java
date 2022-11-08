@@ -1,6 +1,7 @@
 package com.example.app.service;
 
 import com.example.app.domain.vo.BoardVO;
+import com.example.app.domain.vo.Criteria;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -10,13 +11,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 @Slf4j
 public class BoardServiceTest {
-
     @Autowired
     private BoardService boardService;
 
     @Test
     public void showTest(){
-        boardService.show().stream().map(BoardVO::toString).forEach(log::info);
+        Criteria criteria = new Criteria();
+        criteria.createCriteria();
+        boardService.show(criteria).stream().map(BoardVO::toString).forEach(log::info);
     }
 
     @Test
@@ -43,5 +45,10 @@ public class BoardServiceTest {
         BoardVO boardVO = boardService.find(boardNumber);
         Assertions.assertNotNull(boardVO);
         boardService.delete(boardNumber);
+    }
+
+    @Test
+    public void selectCountOfBoard(){
+        log.info("board count: " + boardService.getTotal());
     }
 }

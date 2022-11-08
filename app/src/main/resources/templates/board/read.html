@@ -20,14 +20,16 @@
                 <p>게시글 상세보기</p>
             </header>
             <!-- Table -->
-            <h3><a th:href="@{/board/list}" class="button small">목록 보기</a></h3>
+            <h3><a class="list button small">목록 보기</a></h3> <!--a태그로 감싸지고 href가 없으면 아래 항상 JS를 보자!!!-->
             <div class="content">
                 <div class="form">
-                    <form method="post" th:action="@{/board/delete}" th:object="${board}">
+
+                    <!--controller에서 번호로 조회한 해당 boardVO하나를 가져와서 board키값으로 받는다.-->
+                    <form method="post" th:action="@{/board/delete}" th:object="${board}"> <!--아래 submit눌렀을시 삭제이니까 delete경로로 보내준다.-->
                         <div class="fields">
                             <div class="field">
                                 <h4>번호</h4>
-                                <input type="text" th:field="*{boardNumber}" readonly/>
+                                <input type="text" th:field="*{boardNumber}" readonly/> <!--readonly는 보면 알겠지만 수정이 불가하다.-->
                             </div>
                             <div class="field">
                                 <h4>제목</h4>
@@ -45,10 +47,14 @@
                         <ul class="actions special">
                             <li>
                                 <input type="button" class="button" value="수정" onclick="goUpdate()"/>
+                                <!--타입 버튼은 주로 이벤트를 또 걸어줄때 사용 goUpdate() 아래 JS로 이벤트 실행 -->
                                 <input type="submit" class="button" value="삭제"/>
+                                <!--삭제 클릭시 위에 post방식으로 board/delete경로로 쏴준다.-->
                             </li>
                         </ul>
                     </form>
+
+
                 </div>
             </div>
         </div>
@@ -61,12 +67,21 @@
 <script src="/js/breakpoints.min.js"></script>
 <script src="/js/util.js"></script>
 <script src="/js/main.js"></script>
-
 <script th:inline="javascript">
-    function goUpdate(){
-        let boardNumber = [[${board.boardNumber}]];
-        location.href='/board/update?boardNumber=' + boardNumber;
+
+    let queryString = [[${criteria.queryString}]]; /*쿼리 스트링 쓸때는 이거 복붙해서 쓰자!!!*/
+
+    function goUpdate(){ /*수정버튼 함수*/
+        let boardNumber = [[${board.boardNumber}]]; /*수정할때는 해당 boardNumber가 필요하기 때문에 queryString으로 가져간다.*/
+        location.href='/board/update' + queryString + '&boardNumber=' + boardNumber; /*board/update 경로로 해당 boardNumber를 가져간다.*/
     }
+
+    $("a.list").on("click", function(e){ /*목록 보기*/
+        e.preventDefault(); /*a태그 이벤트 막아주고*/
+        location.href = "/board/list" + queryString;
+        /*board/list로 경로 이동하는데 criteria.queryString 안에는 해당 page,amount를 들고간다, 그래서 목록가기해도 1페이지로 안가고 해당페이지에 유지*/
+    });
+
 </script>
 </body>
 </html>

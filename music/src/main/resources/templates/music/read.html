@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>MUSIC</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="/css/main.css" />
+</head>
+<body class="is-preload">
+<!-- Main -->
+<div id="main">
+    <div class="wrapper">
+        <div class="inner">
+
+            <!-- Elements -->
+            <header class="major">
+                <h1>MUSIC</h1>
+                <p>음악 상세보기</p>
+            </header>
+            <!-- Table -->
+            <h3><a th:href="@{/music/list}" class="button small">목록 보기</a></h3>
+            <div class="content">
+                <div class="form">
+                    <form method="post" th:action="@{/music/delete}" th:object="${music}">
+                        <div class="fields">
+                            <div class="field">
+                                <h4>번호</h4>
+                                <input type="text" th:field="*{musicNumber}" readonly/>
+                            </div>
+                            <div class="field">
+                                <h4>제목</h4>
+                                <input type="text" th:field="*{musicTitle}" readonly/>
+                            </div>
+                            <div class="field">
+                                <h4>가수</h4>
+                                <textarea rows="6" style="resize:none" readonly th:field="*{musicSinger}"></textarea>
+                            </div>
+                            <div class="field">
+                                <h4>가사</h4>
+                                <input type="text" th:field="*{musicLyrics}" readonly/>
+                            </div>
+                        </div>
+                        <ul class="actions special">
+                            <li>
+                                <input type="button" class="button" value="수정" onclick="goUpdate()"/>
+                                <input type="submit" class="button" value="삭제"/>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Scripts -->
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.dropotron.min.js"></script>
+<script src="/js/browser.min.js"></script>
+<script src="/js/breakpoints.min.js"></script>
+<script src="/js/util.js"></script>
+<script src="/js/main.js"></script>
+
+<script th:inline="javascript">
+    function goUpdate(){
+        let musicNumber = [[${music.musicNumber}]];
+        location.href='/music/update?musicNumber=' + musicNumber;
+    }
+</script>
+</body>
+</html>

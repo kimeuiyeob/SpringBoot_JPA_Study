@@ -19,10 +19,9 @@
                 <p>게시글 등록</p>
             </header>
             <!-- Table -->
-            <h3><a th:href="@{/board/list}" class="button small">목록 보기</a></h3>
-
+            <h3><a class="list button small">목록 보기</a></h3>
             <div class="content">
-                <div class="form">
+                <div class="form"> <!--글 등록안에 값들을 채우고 아래 등록 submit버튼을 누르면 post방식으로 board/write로 간다.-->
                     <form method="post" th:action="@{/board/write}" id="writeForm" th:object="${board}">
                         <div class="fields">
                             <div class="field">
@@ -47,6 +46,7 @@
         </div>
     </div>
 </div>
+</body>
 <!-- Scripts -->
 <script src="/js/jquery.min.js"></script>
 <script src="/js/jquery.dropotron.min.js"></script>
@@ -54,5 +54,12 @@
 <script src="/js/breakpoints.min.js"></script>
 <script src="/js/util.js"></script>
 <script src="/js/main.js"></script>
-</body>
+<script th:inline="javascript">
+    let queryString = [[${criteria.queryString}]];
+
+    $("a.list").on("click", function(e){
+        e.preventDefault();
+        location.href = "/board/list" + queryString;
+    });
+</script>
 </html>

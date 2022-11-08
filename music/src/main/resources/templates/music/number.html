@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>번호로 해당 노래 찾기</title>
+</head>
+<body>
+
+    <form th:action="@{/music/numberFind}" method="post">
+        <input id="number" type="text" placeholder="찾을 노래의 번호를 입력해주세요">
+        <input type="submit" class="button" value="노래 찾기"/>
+    </form>
+
+</body>
+</html>

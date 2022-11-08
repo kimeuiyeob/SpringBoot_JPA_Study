@@ -2,6 +2,7 @@ package com.example.app.service;
 
 import com.example.app.domain.dao.BoardDAO;
 import com.example.app.domain.vo.BoardVO;
+import com.example.app.domain.vo.Criteria;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
@@ -12,13 +13,11 @@ import java.util.List;
 @Service @Qualifier("community") @Primary
 @RequiredArgsConstructor
 public class CommunityService implements BoardService{
-    //BoardService인터페이스 구현해서 바디 완성
-
     private final BoardDAO boardDAO;
 
     @Override
-    public List<BoardVO> show() {
-        return boardDAO.findAll();
+    public List<BoardVO> show(Criteria criteria) {
+        return boardDAO.findAll(criteria);
     }
 
     @Override
@@ -30,7 +29,6 @@ public class CommunityService implements BoardService{
     public boolean add(BoardVO boardVO) {
         return boardDAO.save(boardVO) == 1;
     }
-    //boolean타입으로 받았으니까 ==1을 해준다.
 
     @Override
     public boolean update(BoardVO boardVO) {
@@ -40,5 +38,10 @@ public class CommunityService implements BoardService{
     @Override
     public boolean delete(Long boardNumber) {
         return boardDAO.deleteById(boardNumber) == 1;
+    }
+
+    @Override
+    public int getTotal() {
+        return boardDAO.findCount();
     }
 }

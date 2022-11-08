@@ -24,6 +24,23 @@
     <select id="selectAll" resultType="itemVO">
         SELECT ITEM_NUMBER, ITEM_NAME, ITEM_PRICE, ITEM_STOCK FROM TBL_ITEM
     </select>
+
+
+    <!--당근 갯수 찾아오기-->
+    <select id="selectDanggun" resultType="itemVO">
+        SELECT ITEM_NUMBER, ITEM_NAME, ITEM_PRICE, ITEM_STOCK
+        FROM TBL_ITEM
+        WHERE ITEM_NAME LIKE '당근%'
+    </select>
+
+
+    <!--고구마 갯수 찾아오기-->
+    <select id="selectGoguma" resultType="itemVO">
+        SELECT ITEM_NUMBER, ITEM_NAME, ITEM_PRICE, ITEM_STOCK
+        FROM TBL_ITEM
+        WHERE ITEM_NAME LIKE '고구마%'
+    </select>
+
 </mapper>
 
 
