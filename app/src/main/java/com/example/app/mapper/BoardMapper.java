@@ -19,5 +19,5 @@ public interface BoardMapper {
 //    게시글 삭제
     public int delete(Long boardNumber);
 //    게시글 총 개수
-    public int selectCountOfBoard();
+    public int selectCountOfBoard(Criteria criteria);
 }

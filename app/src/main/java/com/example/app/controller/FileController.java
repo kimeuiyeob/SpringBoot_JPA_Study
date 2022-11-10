@@ -1,6 +1,7 @@
 package com.example.app.controller;
 
 import com.example.app.domain.vo.FileVO;
+
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.core.io.FileSystemResource;
@@ -32,8 +33,7 @@ import java.util.UUID;
 public class FileController {
 
     @PostMapping("/upload")
-    public List<FileVO> upload(MultipartFile[] upload) throws IOException {
-
+    public List<FileVO> upload(List<MultipartFile> upload) throws IOException {
         String rootPath = "C:/upload";
         String uploadFileName = null;
         List<FileVO> files = new ArrayList<>();
@@ -107,8 +107,6 @@ public class FileController {
         Date now = new Date();
         return format.format(now);
     }
-
-
 }
 
 

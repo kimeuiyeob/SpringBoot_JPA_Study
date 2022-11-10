@@ -33,8 +33,8 @@ public class BoardDAO {
         return boardMapper.delete(boardNumber);
     }
     //    게시글 전체 개수
-    public int findCount(){
-        return boardMapper.selectCountOfBoard();
+    public int findCount(Criteria criteria){
+        return boardMapper.selectCountOfBoard(criteria);
     }
 }
 

@@ -99,7 +99,7 @@ public class BoardServiceTest {
 
     @Test
     public void selectCountOfBoard(){
-        log.info("board count: " + boardService.getTotal());
+        log.info("board count: " + boardService.getTotal(new Criteria()));
     }
 
     @Test

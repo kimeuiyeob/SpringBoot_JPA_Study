@@ -29,7 +29,7 @@ public class BoardController {
         if(criteria.getPage() == 0){
             criteria.createCriteria();
         }
-        pageDTO.createPageDTO(criteria, boardService.getTotal());
+        pageDTO.createPageDTO(criteria, boardService.getTotal(criteria));
         model.addAttribute("boards", boardService.show(criteria));
         model.addAttribute("pagination", pageDTO);
     }
@@ -71,9 +71,6 @@ public class BoardController {
         boardService.delete(boardNumber);
         return new RedirectView("/board/list");
     }
-
-    @GetMapping("/test")
-    public void test(){}
 }
 
 

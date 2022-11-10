@@ -12,7 +12,13 @@
             .writer {display: none;}
             .regDate	 {display: none;}
             .updateDate {display: none;}
+            div#searchWrap { display: block; text-align: center; }
+            select{width: 100%;}
+            a.search{ width: 100%;}
         }
+        div#searchWrap { display: flex; text-align: center; }
+        form[name='searchForm'] {overflow: hidden;}
+        select{width: 30%;}
     </style>
 </head>
 <body class="is-preload">
@@ -20,14 +26,18 @@
 <div id="main">
     <div class="wrapper">
         <div class="inner">
-
             <!-- Elements -->
             <header class="major">
                 <h1>Board</h1>
                 <p>게시판 목록</p>
             </header>
             <!-- Table -->
+
+
+
             <h3><a class="write button small">글 등록</a></h3>
+
+
             <div class="table-wrapper">
                 <table>
                     <thead>
@@ -51,6 +61,31 @@
                     </th:block>
                     </tbody>
                 </table>
+
+
+                <form th:action="@{/board/list}" name="searchForm" th:object="${criteria}">
+                    <div class="fields">
+                        <div class="field">
+                            <div id="searchWrap">
+                                <select name="type">
+                                    <option value="">검색 기준</option>
+                                    <option value="tcw" th:selected="*{type} == 'tcw'">전체</option>
+                                    <option value="t" th:selected="*{type} == 't'">제목</option>
+                                    <option value="c" th:selected="*{type} == 'c'">내용</option>
+                                    <option value="w" th:selected="*{type} == 'w'">작성자</option>
+                                    <option value="tc" th:selected="*{type} == 'tc'">제목 또는 내용</option>
+                                    <option value="tw" th:selected="*{type} == 'tw'">제목 또는 작성자</option>
+                                    <option value="cw" th:selected="*{type} == 'cw'">내용 또는 작성자</option>
+                                </select>
+                                <input type="text" th:field="*{keyword}" th:value="*{keyword}">
+                                <a href="" class="search button primary icon solid fa-search">검색</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+
+
                 <div th:object="${pagination}">
                     <div style="text-align: center">
                         <a class="changePage" th:href="*{startPage - 1}" th:if="*{prev}"><code><</code></a>
@@ -60,10 +95,18 @@
                         </th:block>
                         <a class="changePage" th:href="*{endPage + 1}" th:if="*{next}"><code>></code></a>
                     </div>
+
+
+
                     <form th:action="@{/board/list}" th:object="${criteria}" name="pageForm">
                         <input type="hidden" th:field="*{page}">
                         <input type="hidden" th:field="*{amount}">
+                        <input type="hidden" th:field="*{type}">
+                        <input type="hidden" th:field="*{keyword}">
                     </form>
+
+
+
                 </div>
             </div>
         </div>
@@ -85,6 +128,11 @@
     const $pages = $("a.changePage");
     const $read = $("a.read");
 
+    $("a.search").on("click", function(e){
+        e.preventDefault();
+        document.searchForm.submit();
+    });
+
     $(document).ready(function(){
         if(boardNumber == '' || history.state){
             return;
@@ -99,7 +147,6 @@
     $pages.on("click", function(e){
         e.preventDefault();
         $(document.pageForm.page).val($(this).attr("href"));
-        $(document.pageForm.amount).val(10);
         document.pageForm.submit();
     });
 

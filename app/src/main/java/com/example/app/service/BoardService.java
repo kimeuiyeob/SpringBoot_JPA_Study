@@ -19,5 +19,5 @@ public interface BoardService {
     //    게시글 삭제
     public void delete(Long boardNumber);
     //    게시글 삭제
-    public int getTotal();
+    public int getTotal(Criteria criteria);
 }

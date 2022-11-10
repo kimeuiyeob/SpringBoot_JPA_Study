@@ -28,4 +28,8 @@ public class FileService {
     public void remove(Long boardNumber){
         fileDAO.deleteByBoardNumber(boardNumber);
     }
+//    어제 저장된 첨부파일 전체 조회
+    public List<FileVO> showOldFiles(){
+        return fileDAO.findOldFilesByBoardNumber();
+    }
 }

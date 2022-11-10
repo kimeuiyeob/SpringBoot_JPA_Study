@@ -1,15 +1,13 @@
-package com.example.app;
+package com.example.like;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableScheduling;
 
-@EnableScheduling
 @SpringBootApplication
-public class AppApplication {
+public class LikeApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(AppApplication.class, args);
+        SpringApplication.run(LikeApplication.class, args);
     }
 
 }

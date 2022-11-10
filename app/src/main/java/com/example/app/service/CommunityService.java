@@ -68,7 +68,7 @@ public class CommunityService implements BoardService{
     }
 
     @Override
-    public int getTotal() {
-        return boardDAO.findCount();
+    public int getTotal(Criteria criteria) {
+        return boardDAO.findCount(criteria);
     }
 }

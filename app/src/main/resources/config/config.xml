@@ -4,5 +4,6 @@
     <typeAliases>
         <typeAlias type="com.example.app.domain.vo.BoardVO" alias="boardVO"/>
         <typeAlias type="com.example.app.domain.vo.FileVO" alias="fileVO"/>
+        <typeAlias type="com.example.app.domain.vo.ReplyVO" alias="replyVO"/>
     </typeAliases>
 </configuration>

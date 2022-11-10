@@ -49,6 +49,9 @@ public class BoardMapperTest {
 
     @Test
     public void selectCountOfBoard(){
-        log.info("board count: " + boardMapper.selectCountOfBoard());
+        Criteria criteria = new Criteria();
+        criteria.setType("t");
+        criteria.setKeyword("새콤");
+        log.info("board count: " + boardMapper.selectCountOfBoard(criteria));
     }
 }

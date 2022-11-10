@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.like.mapper.LikeMapper">
+
+    <select id="select" resultType="likeVO">
+        SELECT MUSIC_NUMBER, MUSIC_TITLE, MUSIC_SINGER, MUSIC_LYRICS, MUSIC_REGISTER_DATE, MUSIC_UPDATE_DATE
+        FROM TBL_MUSIC;
+    </select>
+
+    <select id="selectAll" resultType="likeVO">
+        SELECT MUSIC_NUMBER, MUSIC_TITLE, MUSIC_SINGER, MUSIC_LYRICS, MUSIC_REGISTER_DATE, MUSIC_UPDATE_DATE
+        FROM TBL_MUSIC;
+        WHERE MUSIC_NUMBER = #{musicNumber};
+    </select>
+
+    <sql id="search">
+        <if test="keyword != null">
+            <trim prefix="(" suffix=")" prefixOverrides="OR">
+                <foreach item="type" collection="types">
+                    <trim prefix="OR">
+                        <choose>
+                            <when test="type == 't'.toString()">
+                                MUSIC_TITLE LIKE '%' || #{keyword} || '%'
+                            </when>
+                            <when test="type == 'c'.toString()">
+                                MUSIC_SINGER LIKE '%' || #{keyword} || '%'
+                            </when>
+                            <when test="type == 'w'.toString()">
+                                MUSIC_LYRICS LIKE '%' || #{keyword} || '%'
+                            </when>
+                        </choose>
+                    </trim>
+                </foreach>
+            </trim>
+        </if>
+    </sql>
+
+
+    <select id="getList" resultType="likeVO">
+        SELECT MUSIC_NUMBER, MUSIC_TITLE, MUSIC_SINGER, MUSIC_LYRICS, MUSIC_REGISTER_DATE, MUSIC_UPDATE_DATE
+        FROM
+             (
+              SELECT ROWNUM R, MUSIC_NUMBER, MUSIC_TITLE, MUSIC_SINGER, MUSIC_LYRICS, MUSIC_REGISTER_DATE, MUSIC_UPDATE_DATE
+              FROM
+               (
+                    SELECT MUSIC_NUMBER, MUSIC_TITLE, MUSIC_SINGER, MUSIC_LYRICS, MUSIC_REGISTER_DATE, MUSIC_UPDATE_DATE
+                    FROM TBL_MUSIC
+                   ORDER BY MUSIC_NUMBER DESC
+               )
+        WHERE
+        <trim prefixOverrides="AND">
+            <include refid="search"/>
+            <![CDATA[
+                AND ROWNUM <= #{page} * #{amount}
+                ]]>
+        </trim>
+        )
+        <![CDATA[
+        WHERE R > (#{page} - 1) * #{amount}
+        ]]>
+    </select>
+
+
+</mapper>
