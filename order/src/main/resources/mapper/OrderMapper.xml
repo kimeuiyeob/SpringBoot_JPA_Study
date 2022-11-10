@@ -13,11 +13,11 @@
         WHERE ORDER_ID = #{orderId}
     </delete>
 
-    <!--조회-->
+    <!--조회--> <!--헤더 검색창에서 이름으로 조회하기-->
     <select id="select" resultType="orderDTO">
         SELECT ORDER_ID, ORDER_DATE, I.ITEM_NUMBER, ITEM_COUNT, ORDER_PRICE, ITEM_NAME, ITEM_PRICE, ITEM_STOCK
         FROM TBL_ITEM I JOIN TBL_ORDER O
-        ON I.ITEM_NUMBER = #{itemNumber} AND I.ITEM_NUMBER = O.ITEM_NUMBER
+        ON I.ITEM_NAME = #{itemName} AND I.ITEM_NUMBER = O.ITEM_NUMBER
     </select>
 
     <select id="selectOrder" resultType="orderDTO">

@@ -15,10 +15,4 @@ public interface ItemMapper {
     public ItemVO select(Long itemNumber);
 //    전체 조회
     public List<ItemVO> selectAll();
-
-    //당근 찾기
-    public ItemVO selectDanggun();
-
-    //고구마 찾기
-    public ItemVO selectGoguma();
 }

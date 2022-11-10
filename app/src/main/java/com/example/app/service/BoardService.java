@@ -13,11 +13,11 @@ public interface BoardService {
     //    게시글 조회
     public BoardVO find(Long boardNumber);
     //    게시글 추가
-    public boolean add(BoardVO boardVO);
+    public void add(BoardVO boardVO);
     //    게시글 수정
-    public boolean update(BoardVO boardVO);
+    public void update(BoardVO boardVO);
     //    게시글 삭제
-    public boolean delete(Long boardNumber);
-    //    게시글 전체 가져오기
+    public void delete(Long boardNumber);
+    //    게시글 삭제
     public int getTotal();
 }

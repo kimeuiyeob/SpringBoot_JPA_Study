@@ -39,12 +39,6 @@ public class ItemMapperTest {
     public void selectAll(){
         itemMapper.selectAll().stream().map(item -> item.getItemName()).forEach(log::info);
     }
-
-
-    @Test
-    public void selectDang() {
-        itemMapper.selectDanggun();
-    }
 }
 
 

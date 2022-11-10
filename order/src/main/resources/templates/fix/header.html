@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<!--th:fragment를 사용해서 외부에서 해당 태그를 가져다 쓸 수 있다.-->
+<!--외부 경로에 있는 태그를 가져올 때에는 선택자로 가져올 수도 있다.-->
+<!--따라서 fragment명은 선택자명과 겹치치 않게 작성해준다.-->
+    <form th:fragment="search" th:action="@{/order/search}" name="searchForm">
+        <h2>현재까지 주문된 상품 개수 검색</h2>
+        <input type="text" name="itemName" placeholder="상품명 입력">
+        <input type="submit" value="검색">
+    </form>
+<!--버튼을 누르면 order/search 로 경로이동한다 방식은 defualt값인 get방식으로-->
+<!--헤더 html을 만들어서 다른데서 <form th:replace="/fix/header.html :: search"></form> 이렇게 해서 받는다 그럼 jsp includes처럼 붙여진다. -->
+
+</body>
+</html>

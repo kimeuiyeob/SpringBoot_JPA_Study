@@ -1,0 +1,56 @@
+<!--
+메인 페이지
+   상품 전체 목록 출력
+   상품 별 체크박스 구현
+   상품 별 개수 구현
+   주문하기 버튼 구현
+   주문내역 보기 버튼 구현
+   검색 구현(상품명 입력)
+
+주문내역 페이지
+   주문 목록 출력
+   주문별 체크박스 구현
+   취소하기 버튼 구현
+
+검색 결과 페이지
+   검색된 상품의 전체 주문 개수 출력
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>상품 목록</title>
+    <link rel="stylesheet" href="/table.css">
+</head>
+<body>
+<!--    <form th:replace="/fix/header.html :: form[name='searchForm']"></form>-->
+<!--    <form th:replace="/fix/header.html :: form"></form>-->
+    <form th:replace="/fix/header.html :: search"></form>
+    <table border="1">
+        <tr>
+            <th>구분</th>
+            <th>상품 번호</th>
+            <th>상품 이름</th>
+            <th>상품 가격</th>
+            <th>상품 재고</th>
+        </tr>
+        <th:block th:each="item:${items}">
+            <tr>
+                <td><input type="checkbox"></td>
+                <td th:text="${item.itemNumber}"></td>
+                <td th:text="${item.itemName}"></td>
+                <td th:text="${item.itemPrice}"></td>
+                <td th:text="${item.itemStock}"></td>
+            </tr>
+        </th:block>
+    </table>
+
+    <form th:action="@{/order/add}" name="payForm" method="post">
+        <table id="cart"><!--이부분이 js로 인해 체크박스 체크시 테이블이 생겨난다--></table>
+        <input type="button" id="pay" value="결제하기">
+    </form>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script> <!--js사용하기 위해-->
+<script src="/item.js"></script> <!--링크 연결-->
+</html>

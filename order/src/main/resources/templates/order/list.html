@@ -1,108 +1,63 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>ITEM</title>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-    <meta name="description" content=""/>
-    <meta name="keywords" content=""/>
-    <link rel="stylesheet" href="/css/main.css" type="text/css"/>
-    <style>
-        @media (max-width: 918px) {
-            .writer {
-                display: none;
-            }
-
-            .regDate {
-                display: none;
-            }
-
-            .updateDate {
-                display: none;
-            }
-        }
-    </style>
+    <meta charset="UTF-8">
+    <title>주문 목록</title>
+    <link rel="stylesheet" href="/table.css">
 </head>
-<body class="is-preload">
-<!-- Main -->
-<div id="main">
-    <div class="wrapper">
-        <div class="inner">
+<body>
+<form th:replace="/fix/header.html :: search"></form>
+<table border="1">
+    <tr>
+        <th>주문 번호</th>
+        <th>주문 날짜</th>
+        <th>상품 번호</th>
+        <th>상품 이름</th>
+        <th>상품 가격</th>
+        <th>상품 개수</th>
+        <th>주문 가격</th>
 
-            <!-- Elements -->
-            <header class="major">
-                <h1>ITEM</h1>
-                <p>상품 목록</p>
-            </header>
-            <!-- Table -->
-            <h3><a th:href="@{/order/add}" class="button small">주문 하기</a></h3>
-            <div class="table-wrapper">
-
-                <form method="post"  th:action="@{/order/result}" name="" th:object="${orders}">
-                     <input class="productName" type="text" placeholder="상품명 검색">
-                    <input type="button" value="버튼">
-                </form>
-
-                <h5><a th:href="@{/order/result}" class="button small">당근 갯수 찾기</a></h5>
-
-                <h5><a th:href="@{/order/result2}" class="button small">고구마 갯수 찾기</a></h5>
-
-                <table>
-                    <thead>
-                    <tr class="tHead">
-                        <th class="bno">상품 번호</th>
-                        <th class="title">상품 이름</th>
-                        <th class="writer">상품 가격</th>
-                        <th class="writer">상품 재고</th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    <th:block th:each="item:${orders}"> <!--controller에서 boards(boardVO들)이 넘어온다. 그걸 board에 담아서 반복-->
-                        <tr class="tBody" th:object="${item}">
-                            <td class="bno" th:text="*{itemNumber}"></td>
-                            <!--  <td class="title"><a th:text="*{musicTitle}" th:href="@{/music/read(musicNumber=*{musicNumber})}"></a></td>
-                              &lt;!&ndash;해당 넘버로 가지고 read경로 이동&ndash;&gt;-->
-                            <td class="writer" th:text="*{itemName}"></td>
-                            <td class="Lyrics" th:text="*{itemPrice}"></td>
-                            <td class="regDate" th:text="*{itemStock}"></td>
-                            <td><input type="checkbox"></td>
-                        </tr>
-                    </th:block>
-                    </tbody>
-
-                    <tfoot>
-                    </tfoot>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Scripts -->
-<script src="/js/jquery.min.js"></script>
-<script src="/js/jquery.dropotron.min.js"></script>
-<script src="/js/browser.min.js"></script>
-<script src="/js/breakpoints.min.js"></script>
-<script src="/js/util.js"></script>
-<script src="/js/main.js"></script>
-<script th:inline="javascript">
-
-    /*
-        let musicNumber = [[${musicNumber}]];
-        console.log(musicNumber);
-        $(document).ready(function(){
-            if(musicNumber == '' || history.state){
-                return;
-            }
-
-            if(parseInt(musicNumber) > 0){
-                alert("게시글 " + parseInt(musicNumber) + "번이 등록되었습니다.");
-            }
-            history.replaceState({}, null, null);
-        })
-    */
-
-</script>
+    </tr>
+    <th:block th:each="order:${orders}">
+        <tr>
+            <td th:text="${order.orderId}"></td>
+            <td th:text="${order.orderDate}"></td>
+            <td th:text="${order.itemNumber}"></td>
+            <td th:text="${order.itemName}"></td>
+            <td th:text="${order.itemPrice}"></td>
+            <td th:text="${order.itemCount}"></td>
+            <td th:text="${order.orderPrice}"></td>
+        </tr>
+    </th:block>
+</table>
+<form th:action="@{/order/cancel}" name="payForm" method="post">
+    <table id="order-list" border="1">
+        <tr>
+            <th>구분</th>
+            <th>주문 번호</th>
+        </tr>
+    </table>
+    <input type="submit" value="취소하기">
+</form>
 </body>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script src="/order.js"></script>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

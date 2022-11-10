@@ -55,7 +55,7 @@ public class OrderMapperTest {
 
     @Test
     public void selectTest(){
-        log.info("전체 감자 판매 개수 : " + orderMapper.select(1L).stream().map(order -> order.getItemCount()).reduce(0, (count1, count2) -> count1 + count2));
+        log.info("전체 감자 판매 개수 : " + orderMapper.select("감자").stream().map(order -> order.getItemCount()).reduce(0, (count1, count2) -> count1 + count2));
     }
 
     @Test

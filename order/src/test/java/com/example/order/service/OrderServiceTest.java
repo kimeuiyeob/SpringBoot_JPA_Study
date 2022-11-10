@@ -42,7 +42,7 @@ public class OrderServiceTest {
 //    조회 테스트
     @Test
     public void showTest(){
-        orderSerive.show(3L).forEach(order -> {
+        orderSerive.show("당근").forEach(order -> {
             log.info(order.getOrderId() + ": " + order.getItemName() + ": " + order.getOrderDate() + ": " + order.getOrderPrice());
         });
     }

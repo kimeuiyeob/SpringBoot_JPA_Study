@@ -6,15 +6,15 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
 @Data
-public class Criteria { //보통 실무에서 페이징처리시 Criteria라고 이름을 짓는다.
+public class Criteria {
     private int page;
     private int amount;
 
-    public void createCriteria(){ //파라미터로 page,amount를 안받으면 page:1과 amount:10을 보낸다.
+    public void createCriteria(){
         createCriteria(1, 10);
     }
 
-    public void createCriteria(int page, int amount){ //파라미터로 page,amount 받는 메소드
+    public void createCriteria(int page, int amount){
         this.page = page;
         this.amount = amount;
     }
