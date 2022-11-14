@@ -36,12 +36,16 @@ public class ReplyDAOTest {
 
     @Test
     public void findAllTest(){
-        replyDAO.findAll(401L).stream().map(ReplyVO::toString).forEach(log::info);
+        Criteria criteria = new Criteria();
+        criteria.createCriteria(2, 10);
+        replyDAO.findAll(401L,criteria).stream().map(ReplyVO::toString).forEach(log::info);
     }
 
     @Test
     public void updateTest(){
-        ReplyVO replyVO = replyDAO.findAll(401L).get(0);
+        Criteria criteria = new Criteria();
+        criteria.createCriteria(2, 10);
+        ReplyVO replyVO = replyDAO.findAll(401L, criteria).get(0);
         replyVO.setReplyContent("updated reply");
         replyDAO.update(replyVO);
     }

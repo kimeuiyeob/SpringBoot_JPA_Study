@@ -1,4 +1,4 @@
-package com.example.app.domain.vo;
+package com.example.music.domain.vo;
 
 import lombok.Data;
 import org.springframework.stereotype.Component;
@@ -7,6 +7,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Component
 @Data
 public class Criteria {
+
     private int page;
     private int amount;
     private String type;
@@ -32,25 +33,3 @@ public class Criteria {
         return type != null ? type.split("") : new String[] {};
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

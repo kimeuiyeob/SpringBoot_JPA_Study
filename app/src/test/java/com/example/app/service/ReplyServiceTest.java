@@ -36,12 +36,16 @@ public class ReplyServiceTest {
 
     @Test
     public void showAllTest() {
-        replyService.showAll(401L).stream().map(ReplyVO::toString).forEach(log::info);
+        Criteria criteria = new Criteria();
+        criteria.createCriteria(2, 10);
+        replyService.showAll(401L, criteria).stream().map(ReplyVO::toString).forEach(log::info);
     }
 
     @Test
     public void modifyTest() {
-        ReplyVO replyVO = replyService.showAll(401L).get(0);
+        Criteria criteria = new Criteria();
+        criteria.createCriteria(2, 10);
+        ReplyVO replyVO = replyService.showAll(401L, criteria).get(0);
         replyVO.setReplyContent("updated reply");
         replyService.modify(replyVO);
     }

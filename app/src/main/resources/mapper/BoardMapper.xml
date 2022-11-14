@@ -24,8 +24,6 @@
         </if>
     </sql>
 
-    <!--=============================================================================================-->
-
     <select id="getList" resultType="boardVO">
         SELECT BOARD_NUMBER, BOARD_TITLE, BOARD_WRITER, BOARD_CONTENT, BOARD_REGISTER_DATE, BOARD_UPDATE_DATE
         FROM
@@ -49,8 +47,6 @@
         WHERE R > (#{page} - 1) * #{amount}
         ]]>
     </select>
-
-    <!--=============================================================================================-->
 
     <insert id="insert">
         <selectKey keyProperty="boardNumber" order="BEFORE" resultType="long">

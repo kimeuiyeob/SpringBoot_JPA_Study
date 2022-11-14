@@ -29,7 +29,37 @@
             <!-- Table -->
             <h3><a th:href="@{/music/write}" class="button small">음악 등록</a></h3>
             <h3><a th:href="@{/music/kim}" class="button small">김씨 음악 찾기</a></h3>
-            <h3><a th:href="@{/music/number}" class="button small">번호로 음악 찾기</a></h3>
+
+            <!--==========================================================================================================================-->
+
+            <form th:action="@{/board/list}" name="searchForm" th:object="${criteria}"> <!--criteria안에는 page,amount,type,keyword가 있다.-->
+                <div class="fields">
+                    <div class="field">
+                        <div id="searchWrap">
+
+                            <select name="type">
+                                <option value="">검색 기준</option> <!--여기서 하나를 고르면 type에 해당 값이 들어간다. ex)tcw,t,c등 들어간다.-->
+                                <option value="tcw" th:selected="*{type} == 'tcw'">전체</option>
+                                <option value="t" th:selected="*{type} == 't'">제목</option>
+                                <option value="c" th:selected="*{type} == 'c'">내용</option>
+                                <option value="w" th:selected="*{type} == 'w'">작성자</option>
+                                <option value="tc" th:selected="*{type} == 'tc'">제목 또는 내용</option>
+                                <option value="tw" th:selected="*{type} == 'tw'">제목 또는 작성자</option>
+                                <option value="cw" th:selected="*{type} == 'cw'">내용 또는 작성자</option>
+                            </select>
+
+                            <input type="text" th:field="*{keyword}" th:value="*{keyword}"> <!--그리고 keyword는 text태그이니까 내가 입력한 값이 들어간다.-->
+                            <a href="" class="search button primary icon solid fa-search">검색</a>
+                            <!--a태그에 ""로 해놓으면 아래 JS확인, 보면 이 a태그 이벤트를 막고 검색 누를시 submit한거이다.-->
+                            <!--이렇게 되면 type에서 하나를 고르고 text에 입력한 값을 가지고 th:action="@{/board/list}"로 넘어간다. -->
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <!--==========================================================================================================================-->
+
             <div class="table-wrapper">
                 <table>
                     <thead>

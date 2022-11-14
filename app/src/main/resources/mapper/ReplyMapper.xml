@@ -8,13 +8,26 @@
 
     <select id="selectAll" resultType="replyVO">
         SELECT REPLY_NUMBER, REPLY_CONTENT, REPLY_WRITER, REPLY_REGISTER_DATE, REPLY_UPDATE_DATE, BOARD_NUMBER
-        FROM TBL_REPLY
-        WHERE BOARD_NUMBER = #{boardNumber}
+        FROM
+        (
+            SELECT ROWNUM R, REPLY_NUMBER, REPLY_CONTENT, REPLY_WRITER, REPLY_REGISTER_DATE, REPLY_UPDATE_DATE, BOARD_NUMBER
+            FROM
+            (
+                SELECT REPLY_NUMBER, REPLY_CONTENT, REPLY_WRITER, REPLY_REGISTER_DATE, REPLY_UPDATE_DATE, BOARD_NUMBER
+                FROM TBL_REPLY
+                WHERE BOARD_NUMBER = #{boardNumber}
+                ORDER BY REPLY_NUMBER DESC
+            )
+    <![CDATA[
+            WHERE ROWNUM <= #{criteria.page} * #{criteria.amount}
+        )
+        WHERE R > (#{criteria.page} - 1) * #{criteria.amount}
+    ]]>
     </select>
 
     <update id="update">
         UPDATE TBL_REPLY
-        SET REPLY_CONTENT = #{replyContent}, REPLY_UPDATE_DATE = CURRENT_DATE
+        SET REPLY_CONTENT = #{replyContent}, REPLY_WRITER = #{replyWriter}, REPLY_UPDATE_DATE = CURRENT_DATE
         WHERE REPLY_NUMBER = #{replyNumber}
     </update>
 
@@ -27,4 +40,24 @@
         SELECT COUNT(REPLY_NUMBER) FROM TBL_REPLY
         WHERE BOARD_NUMBER = #{boardNumber}
     </select>
+
+    <select id="select" resultType="replyVO">
+        SELECT REPLY_NUMBER, REPLY_CONTENT, REPLY_WRITER, REPLY_REGISTER_DATE, REPLY_UPDATE_DATE, BOARD_NUMBER
+        FROM TBL_REPLY
+        WHERE REPLY_NUMBER = #{replyNumber}
+    </select>
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -36,12 +36,16 @@ public class ReplyMapperTest {
 
     @Test
     public void selectAllTest(){
-        replyMapper.selectAll(401L).stream().map(ReplyVO::toString).forEach(log::info);
+        Criteria criteria = new Criteria();
+        criteria.createCriteria(2, 10);
+        replyMapper.selectAll(401L, criteria).stream().map(ReplyVO::toString).forEach(log::info);
     }
 
     @Test
     public void updateTest(){
-        ReplyVO replyVO = replyMapper.selectAll(401L).get(0);
+        Criteria criteria = new Criteria();
+        criteria.createCriteria(2, 10);
+        ReplyVO replyVO = replyMapper.selectAll(401L, criteria).get(0);
         replyVO.setReplyContent("updated reply");
         replyMapper.update(replyVO);
     }

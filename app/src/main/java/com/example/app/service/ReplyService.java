@@ -1,6 +1,7 @@
 package com.example.app.service;
 
 import com.example.app.domain.dao.ReplyDAO;
+import com.example.app.domain.vo.Criteria;
 import com.example.app.domain.vo.ReplyVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,8 @@ public class ReplyService {
         replyDAO.save(replyVO);
     }
     //    목록
-    public List<ReplyVO> showAll(Long boardNumber){
-        return replyDAO.findAll(boardNumber);
+    public List<ReplyVO> showAll(Long boardNumber, Criteria criteria){
+        return replyDAO.findAll(boardNumber, criteria);
     }
     //    수정
     public void modify(ReplyVO replyVO){
@@ -31,5 +32,9 @@ public class ReplyService {
     //    전체 개수
     public int getTotal(Long boardNumber){
         return replyDAO.findCountByBoardNumber(boardNumber);
+    }
+    //    조회
+    public ReplyVO show(Long replyNumber){
+        return replyDAO.findById(replyNumber);
     }
 }

@@ -32,12 +32,7 @@
                 <p>게시판 목록</p>
             </header>
             <!-- Table -->
-
-
-
             <h3><a class="write button small">글 등록</a></h3>
-
-
             <div class="table-wrapper">
                 <table>
                     <thead>
@@ -61,8 +56,6 @@
                     </th:block>
                     </tbody>
                 </table>
-
-
                 <form th:action="@{/board/list}" name="searchForm" th:object="${criteria}">
                     <div class="fields">
                         <div class="field">
@@ -83,9 +76,6 @@
                         </div>
                     </div>
                 </form>
-
-
-
                 <div th:object="${pagination}">
                     <div style="text-align: center">
                         <a class="changePage" th:href="*{startPage - 1}" th:if="*{prev}"><code><</code></a>
@@ -95,18 +85,12 @@
                         </th:block>
                         <a class="changePage" th:href="*{endPage + 1}" th:if="*{next}"><code>></code></a>
                     </div>
-
-
-
                     <form th:action="@{/board/list}" th:object="${criteria}" name="pageForm">
                         <input type="hidden" th:field="*{page}">
                         <input type="hidden" th:field="*{amount}">
                         <input type="hidden" th:field="*{type}">
                         <input type="hidden" th:field="*{keyword}">
                     </form>
-
-
-
                 </div>
             </div>
         </div>

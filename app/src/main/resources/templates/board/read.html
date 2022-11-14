@@ -12,6 +12,19 @@
             display: flex;
             list-style: none;
         }
+        h4 {
+            margin: 0;
+        }
+        .line{
+            border-bottom: 1px solid #ff8b77;
+        }
+        p {
+            margin: 0;
+        }
+
+        textarea {
+            resize: none;
+        }
     </style>
 </head>
 <body class="is-preload">
@@ -70,7 +83,30 @@
                                 <input type="submit" class="button" value="삭제"/>
                             </li>
                         </ul>
+                        <ul class="icons">
+                            <li style="display: block">
+                                <span class="icon solid fa-envelope"></span>
+                                <strong>댓글</strong>
+                            </li>
+                        </ul>
+                        <a href="javascript:void(0)" class="register button primary small" style="width: 100%">댓글 등록</a>
+                        <div style="display: none" class="register-form">
+                            <div>
+                                <h4>작성자</h4>
+                                <input type="text" name="replyWriter" placeholder="Replier">
+                            </div>
+                            <div>
+                                <h4>댓글</h4>
+                                <textarea rows="6" name="replyContent" placeholder="Reply" style="resize: none"></textarea>
+                            </div>
+                            <div style="text-align: right">
+                                <a href="javascript:void(0)" class="finish button primary small">등록</a>
+                                <a href="javascript:void(0)" class="cancel button primary small">취소</a>
+                            </div>
+                        </div>
+                        <ul class="replies"></ul>
                     </form>
+                    <div class="paging" style="text-align: center"></div>
                 </div>
             </div>
         </div>
@@ -83,8 +119,186 @@
 <script src="/js/breakpoints.min.js"></script>
 <script src="/js/util.js"></script>
 <script src="/js/main.js"></script>
+<script src="/js/reply.js"></script>
 <script th:inline="javascript">
+
+    let boardNumber = [[${board.boardNumber}]];
+    /*#################################################################################################*/
+    /*#######################################    REPLY     #############################################*/
+    /*#################################################################################################*/
+
+    show();
+
+    $("a.register").on("click", function(e){
+        e.preventDefault();
+        $(this).hide();
+        $(this).next().show();
+    });
+
+    $("a.cancel").on("click", function(e){
+        e.preventDefault();
+        $(this).closest(".register-form").hide();
+        $(this).closest(".register-form").prev().show();
+    });
+
+    $("a.finish").on("click", function(){
+       replyService.add({
+           replyContent: $("textarea[name='replyContent']").val(),
+           replyWriter: $("input[name='replyWriter']").val(),
+           boardNumber: boardNumber
+       }, function(){show()});
+    });
+
+    function show(){
+        replyService.getList({
+            boardNumber: boardNumber,
+            page: globalThis.page
+        }, getList);
+    }
+
+    //DOM 분리
+    function getList(replyDTO){
+        let text = "";
+        replyDTO.replies.forEach(reply => {
+            text += "<li style='display: block' data-reply-number='" + reply.replyNumber + "'>";
+            text += "<div style='display: flex; justify-content: space-between;'>";
+            text += "<strong style='display:block;'>" + reply.replyWriter + "</strong>";
+            text += "<div>";
+            text += "<a class='modify-ready " + reply.replyNumber + "' style='cursor: pointer;'>수정</a>"
+            text += "<a class='modify " + reply.replyNumber + "' style='display: none; cursor: pointer;'>수정완료</a>"
+            text += "&nbsp;&nbsp;<a class='remove' href='" + reply.replyNumber + "'>삭제</a>"
+            text += "</div>";
+            text += "</div>";
+            text += "<div style='display: flex; justify-content: space-between'>";
+            text += "<p class='replyContent " + reply.replyNumber + "'>" + reply.replyContent + "</p>";
+            text += "<p style='text-align: right;'><strong class='date'>";
+            text += reply.replyRegisterDate == reply.replyUpdateDate ? "작성된 날짜 " + replyService.timeForToday(reply.replyRegisterDate)
+                : "수정된 날짜 " + replyService.timeForToday(reply.replyUpdateDate);
+            text += "</strong></p>";
+            text += "</div>";
+            text += "<div class='line'></div>";
+            text += "</li>";
+        });
+
+        //페이지 이동이 없기 때문에 append로 하면 이전 목록이 없어지지 않는다.
+        //따라서 html로 계속 덮어씌워줘야 한다.
+        $("ul.replies").html(text)
+
+        //페이징 처리를 위해 댓글 전체 개수를 전달해준다.
+        showReplyPage(replyDTO.replyCount)
+    }
+
+    $("ul.replies").on("click", "a.modify-ready", function(){
+        let replyNumber = this.classList[1];
+        $("p." + replyNumber).replaceWith("<textarea class='" + replyNumber + "'>" + $("p." + replyNumber).text() + "</textarea>");
+        $(this).hide();
+        $(this).next().show();
+    });
+
+    $("ul.replies").on("click", "a.modify", function(){
+        let replyNumber = this.classList[1];
+        replyService.modify({
+            replyNumber: replyNumber,
+            replyContent: $("textarea." + replyNumber).val()
+        }, function(){show();});
+    });
+
+    $("ul.replies").on("click", "a.remove", function(e){
+        e.preventDefault();
+        let replyNumber = $(this).attr("href");
+        replyService.remove(replyNumber, function(){show();});
+    });
+
+    /*#################################################################################################*/
+    /*#######################################    TEST     #############################################*/
+    /*#################################################################################################*/
+
+    // replyService.add({
+    //     replyContent: 'module test',
+    //     replyWriter: 'tester',
+    //     boardNumber: boardNumber
+    // }, add)
+    //
+    // function add(result){
+    //     alert(result);
+    // }
+
+    // replyService.getList(boardNumber, getList);
+    //
+    // function getList(replies){
+    //     console.log(replies);
+    // }
+
+    // replyService.read(23, read);
+    //
+    // function read(reply){
+    //     console.log(reply);
+    // }
+
+    // replyService.remove(23, remove);
+    //
+    // function remove(text){
+    //     alert(text);
+    // }
+
+    // replyService.modify({
+    //     replyNumber: 62,
+    //     replyWriter: 'ajax 싫어',
+    //     replyContent: 'ajax 좋아'
+    // }, modify);
+    //
+    // function modify(text){
+    //     alert(text);
+    // }
+
+    /*#################################################################################################*/
+    /*#######################################    Paging     #############################################*/
+    /*#################################################################################################*/
+
     let queryString = [[${criteria.queryString}]];
+    globalThis.page = 1;
+
+    //댓글 페이징 처리
+    function showReplyPage(replyCount){
+        let endNumber = Math.ceil(globalThis.page / 10) * 10;
+        let startNumber = endNumber - 9;
+        let realEnd = Math.ceil(replyCount / 10);
+        const $paging = $("div.paging");
+
+        if(endNumber > realEnd){
+
+            endNumber = realEnd == 0 ? '1' : realEnd;
+        }
+
+        let prev = startNumber > 1;
+        let next = endNumber < realEnd;
+
+        let text = "";
+
+        if(prev){
+            text += `<a class="changePage" href="` + (startNumber - 1) + `"><code><</code></a>`
+        }
+        for (let i=startNumber; i<=endNumber; i++){
+            if(globalThis.page == i){
+                text += `<code>` + i + `</code>`
+                continue;
+            }
+            text += `<a class="changePage" href="` + i + `"><code>` + i + `</code></a>`
+        }
+        if(next){
+            text += `<a class="changePage" href="` + (endNumber + 1) + `"><code>></code></a>`
+        }
+
+        $paging.html(text);
+    }
+
+    $("div.paging").on("click", "a.changePage", function(e){
+        e.preventDefault();
+        globalThis.page = $(this).attr("href");
+        show();
+    });
+
+
 
     function goUpdate(){
         let boardNumber = [[${board.boardNumber}]];
@@ -95,6 +309,18 @@
         e.preventDefault();
         location.href = "/board/list" + queryString;
     });
+
+
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+

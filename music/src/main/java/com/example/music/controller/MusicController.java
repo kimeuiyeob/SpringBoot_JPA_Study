@@ -1,18 +1,16 @@
 package com.example.music.controller;
 
+import com.example.music.domain.vo.Criteria;
 import com.example.music.domain.vo.MusicVO;
 import com.example.music.service.MusicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
-
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,7 +21,7 @@ public class MusicController {
 
     //    음악 전체 목록 조회
     @GetMapping("/list")
-    public void list(Model model) {
+    public void list(Criteria criteria,Model model) {
         model.addAttribute("music",musicService.show());
     }
 
