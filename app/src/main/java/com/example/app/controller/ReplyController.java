@@ -1,5 +1,6 @@
 package com.example.app.controller;
 
+import com.example.app.aspect.annotation.LogStatus;
 import com.example.app.domain.vo.Criteria;
 import com.example.app.domain.vo.ReplyDTO;
 import com.example.app.domain.vo.ReplyVO;
@@ -24,6 +25,7 @@ public class ReplyController {
 //    produces : 콜백함수로 결과를 전달할 때의 타입
 //    @RequestBody : 전달받은 데이터를 알맞는 매개변수로 주입
 //    ResponseEntity : 서버의 상태코드, 응답 메세지 등을 담을 수 있는 타입
+    @LogStatus
     @PostMapping(value = "/new", consumes = "application/json", produces = "text/plain; charset=utf-8")
     public ResponseEntity<String> write(@RequestBody ReplyVO replyVO) throws UnsupportedEncodingException {
         replyService.register(replyVO);
@@ -31,6 +33,7 @@ public class ReplyController {
     }
 
 //    특정 게시글의 댓글 전체 조회
+    @LogStatus
     @GetMapping("/list/{bno}/{page}")
     public ReplyDTO list(@PathVariable("bno") Long boardNumber, @PathVariable int page){
         Criteria criteria = new Criteria();
@@ -42,6 +45,7 @@ public class ReplyController {
 //    ReplyVO에 전달될 데이터 중 replyWriter가 전달되지 않았을 경우 required를 false로 변경해주고
 //    Optional 객체를 사용하여 null을 검사해준다.
 //    @PutMapping(value = "/{rno}")
+    @LogStatus
     @PatchMapping(value = {"/{rno}", "/{rno}/{replier}"})
 //    @PostMapping(value = {"/{rno}", "/{rno}/{replier}"})
     public String update(@RequestBody ReplyVO replyVO, @PathVariable("rno") Long replyNumber, @PathVariable(value = "replier", required = false) String replyWriter){
@@ -52,6 +56,7 @@ public class ReplyController {
     }
 
 //    댓글 삭제
+    @LogStatus
     @DeleteMapping("/{replyNumber}")
     public String delete(@PathVariable Long replyNumber){
         replyService.remove(replyNumber);
@@ -59,12 +64,14 @@ public class ReplyController {
     }
     
 //    특정 게시글에 작성된 댓글 개수
+    @LogStatus
     @PostMapping("/{boardNumber}")
     public int getTotal(@PathVariable Long boardNumber){
         return replyService.getTotal(boardNumber);
     }
     
 //    댓글 1개 조회
+    @LogStatus
     @GetMapping("/{replyNumber}")
     public ReplyVO show(@PathVariable Long replyNumber){
         return replyService.show(replyNumber);

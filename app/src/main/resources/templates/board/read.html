@@ -275,18 +275,28 @@
 
         let text = "";
 
-        if(prev){
-            text += `<a class="changePage" href="` + (startNumber - 1) + `"><code><</code></a>`
-        }
-        for (let i=startNumber; i<=endNumber; i++){
-            if(globalThis.page == i){
-                text += `<code>` + i + `</code>`
-                continue;
+        if(matchMedia("screen and (max-width: 918px)").matches){
+            if(globalThis.page > 1){
+                text += `<a class="changePage" href="` + (globalThis.page - 1) + `"><code><</code></a>`
             }
-            text += `<a class="changePage" href="` + i + `"><code>` + i + `</code></a>`
-        }
-        if(next){
-            text += `<a class="changePage" href="` + (endNumber + 1) + `"><code>></code></a>`
+            text += `<code>` + globalThis.page + `</code>`
+            if(globalThis.page < realEnd){
+                text += `<a class="changePage" href="` + (globalThis.page + 1) + `"><code>></code></a>`
+            }
+        }else{ // 918px 이상일 때
+            if(prev){
+                text += `<a class="changePage" href="` + (startNumber - 1) + `"><code><</code></a>`
+            }
+            for (let i=startNumber; i<=endNumber; i++){
+                if(globalThis.page == i){
+                    text += `<code>` + i + `</code>`
+                    continue;
+                }
+                text += `<a class="changePage" href="` + i + `"><code>` + i + `</code></a>`
+            }
+            if(next){
+                text += `<a class="changePage" href="` + (endNumber + 1) + `"><code>></code></a>`
+            }
         }
 
         $paging.html(text);
