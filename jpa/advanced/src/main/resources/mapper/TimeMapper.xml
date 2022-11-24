@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.advanced.mapper.TimeMapper">
+    <select id="getTime" resultType="string">
+        SELECT SYSDATE FROM DUAL
+    </select>
+
+    <select id="select" resultType="pet">
+        SELECT OWNER_ID, PET_DISEASE, PET_GENDER, PET_NAME, PET_ID
+        FROM TBL_PET
+        WHERE PET_GENDER = #{gender}
+    </select>
+</mapper>
