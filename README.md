@@ -200,4 +200,6 @@ Handler Mapping 또는 Controller 에 전달을 한다.
 순서 -> MAPPER-> 인터페이스MAPPER -> DAO -> SERVICE -> CONTROLLER
 	    		 	 단위test         단위test   단위test         단위test
 
+# PATTERN
+![PATTERN](./pattern.jfif)
 
