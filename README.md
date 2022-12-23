@@ -119,17 +119,6 @@
 Qualifier
 	@Autowired를 통해 객체를 주입할 때 같은 타입의 객체가 여러개 있다면, 구분할 수 없다.
 	이때, @Qualifier를 통해 식별자를 부여하면 원하는 객체를 주입받을수 있다.
-  
-# Spring MVC(Front-Controller 패턴)
-
-
-       		- HandlerMaping
-REQUEST     ①         ②↕            ③                   ④
-     ]      ↔   DispatcherServlet   ↔  HandlerAdapter   ↔  Controller
-RESPONSE    ⑦      ⑥↕        ⑤↕
-                 View   ViewResolver
-                       ↕
-                 HTML 및 기타
 
 
 # Spring MVC 패턴의 특징
