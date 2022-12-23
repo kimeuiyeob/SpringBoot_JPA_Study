@@ -122,7 +122,8 @@ Qualifier
   
 # Spring MVC(Front-Controller 패턴)
 
-       		  HandlerMaping
+
+       		- HandlerMaping
 REQUEST     ①         ②↕            ③                   ④
      ]      ↔   DispatcherServlet   ↔  HandlerAdapter   ↔  Controller
 RESPONSE    ⑦      ⑥↕        ⑤↕
